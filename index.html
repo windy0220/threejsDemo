@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>threeJs Demo</title>
+    <script src="three.js"></script>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        // 创建一个场景
+        var scene = new THREE.Scene();
+        // 创建一个透视相机(fov视角，宽/高，近截面，远截面)
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+        // 使用WebGL渲染器
+        var renderer = new THREE.WebGLRenderer();
+        // 设置渲染窗口大小
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        // 渲染对象添加进页面中
+        document.body.appendChild(renderer.domElement);
+
+        // 创建一个几何体
+        var geometry = new THREE.BoxGeometry(1, 2, 1);
+        // 使用基础材质
+        var material = new THREE.MeshBasicMaterial({ color: 0xcccccc });
+        // 创建一个网格？参数为集合体，材质
+        var cube = new THREE.Mesh(geometry, material);
+        // 添加到场景中
+        scene.add(cube);
+
+        // 调整摄像机的 z 轴 为了不和立方体在一起，要不然会看到不到
+        camera.position.z = 5;
+
+        // 渲染递归函数
+        function animate() {
+            requestAnimationFrame(animate);  // https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame
+            cube.rotation.x += 0.01; //每次调整下角度就转起来了
+            cube.rotation.y += 0.01;
+            renderer.render(scene, camera); //渲染
+        }
+        animate();
+    </script>
+</body>
+
+</html>
